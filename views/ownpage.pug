@@ -1,0 +1,60 @@
+extends layout
+
+
+
+block content
+  div(class="col s11 m6", id="title") #{title}
+  div(class="col s11 m6", id="subtitle") #{subtitle}
+
+
+  div(class="col s11 m4", id="authortitle") #{author}
+  div(class="col s11 m4")
+    form(method="get" action="/ownpage/logout")
+      button.btn.btn-primary(type='Logoff') Log out
+
+  p Times visited a userpage during login: #{cookietimer}
+
+  div(id="pagetitle") Tell what's on your mind
+  form(method='POST' action='/ownpage/create')
+            div.form-group
+              label(for='message') Post text:
+              input#content.form-control(type='text' name='message')
+            button.btn.btn-primary(type='submit') Submit a new post
+
+  
+
+  - var noMessages = true
+
+  ul
+  div
+   span(class="flow-text")
+      each post in posts
+        if post.author == author
+          if post.time.getMinutes() < 10
+            if post.time.getSeconds() < 10
+              div(class="col s11 m8" id="comment") #{post.message} 
+              div(id="commentTime") - #{post.time.getFullYear()}.#{(post.time.getMonth()+1)}.#{post.time.getDate()} #{post.time.getHours()}:0#{post.time.getMinutes()}:0#{post.time.getSeconds()}
+            else
+              div(class="col s11 m8" id="comment") #{post.message} 
+              div(id="commentTime") - #{post.time.getFullYear()}.#{(post.time.getMonth()+1)}.#{post.time.getDate()} #{post.time.getHours()}:0#{post.time.getMinutes()}:#{post.time.getSeconds()}
+          else
+            if post.time.getSeconds() < 10
+              div(class="col s11 m8" id="comment") #{post.message} 
+              div(id="commentTime") - #{post.time.getFullYear()}.#{(post.time.getMonth()+1)}.#{post.time.getDate()} #{post.time.getHours()}:#{post.time.getMinutes()}:0#{post.time.getSeconds()}
+            else
+              div(class="col s11 m8" id="comment") #{post.message} 
+              div(id="commentTime") - #{post.time.getFullYear()}.#{(post.time.getMonth()+1)}.#{post.time.getDate()} #{post.time.getHours()}:#{post.time.getMinutes()}:#{post.time.getSeconds()}
+        - noMessages = false
+      if noMessages
+        p Looks like you haven't posted anything!
+
+  
+  //- h2 Submit New Post
+  //- form(method='POST' action='/create')
+  //-           div.form-group
+  //-             label(for='username')
+  //-             input#content.form-controll(type='text' name='username' value=author)
+  //-           div.form-group
+  //-             label(for='message') Post text:
+  //-             input#content.form-control(type='text' name='message')
+  //-           button.btn.btn-primary(type='submit') Submit new post

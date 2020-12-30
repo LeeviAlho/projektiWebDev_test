@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  div(class="col s11 m6", id="title") #{title}
+  div(class="col s11 m6", id="subtitle") #{subtitle}
+
+
+
+  div(id="pagetitle") What user's posts do you want to look at?
+  form(method='POST' action='/users/create')
+            div.form-group
+              label(for='username') Who are you searching for?
+              input#name.form-control(type='text', placeholder='Username' name='author', class="card-panel teal lighten-1")
+            button.btn.btn-primary(type='submit') Open
